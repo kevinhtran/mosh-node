@@ -1,15 +1,17 @@
-const fs = require('fs');
-const path = require('path');
+const http = require('http');
 
-const utility = (files) => {
-  return files.filter((file) =>
-    path.parse(`${__dirname}/pages/${file}`).ext === '.js' ? true : false
-  );
-};
+const server = http.createServer((req, res) => {
+  if (req.url === '/') {
+    res.write('Hello World');
+    res.end();
+  }
 
-fs.readdir('./pages', (err, files) => {
-  if (err) console.log('error');
-  else {
-    console.log(utility(files));
+  if (req.url === '/api/courses') {
+    res.write(JSON.stringify([1,2,3]))
+    res.end()
   }
 });
+
+server.listen(3000);
+
+console.log('Listening on port 3000...');
